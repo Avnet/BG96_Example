@@ -30,7 +30,7 @@ These files allow you to build a simple HTTP/HTTPS application that will exchang
    the program operation using a teminal program (ex. minicom or hyperterm), with settings of 115200-N81. Program output
     should resemble:
 
-> 
+```
 Test HTTP and HTTPS interface
 [EasyConnect] Using BG96
 [EasyConnect] IPv4 mode
@@ -415,7 +415,7 @@ Body (488 bytes):
 
  - - - - - - - ALL DONE - - - - - - - 
 
-> 
+```
 
 # Build for Greentea testing
 You can test driver operation by building and running the MBed OS Greentea test suite:
@@ -431,7 +431,7 @@ You can test driver operation by building and running the MBed OS Greentea test 
    When running the test suite, it programs different test files into the hardware to run so execution will take
    some time to complete.  When finished, you will get a summary report similar to:
 
-<code>
+```
     mbedgt: test suite report:
 
 +-----------------------+---------------+-----------------------------------------+--------+--------------------+-------------+
@@ -475,7 +475,7 @@ mbedgt: test case report:
 mbedgt: test case results: 21 OK
 mbedgt: completed in 219.44 sec
 
-</code>
+```
 
 NOTE: the "UDP DTLS handshake" test is a known failure and is expected.
 
