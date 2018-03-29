@@ -1,0 +1,32 @@
+{
+    "macros": ["DEFAULT_APN=\"m2m.com.attz\""
+              ],
+    "config": {
+       "main-stack-size":{
+           "value": 2000
+       },
+       "thread-stack-size":{
+           "value": 2000
+       },
+       "network-interface":{
+           "help": "CELLULAR_BG96",
+           "value": "CELLULAR_BG96"
+       },
+       "bg96_debug": {
+           "help" : "enable or disable WNC debug messages.",
+           "value": 0
+       },
+       "bg96-debug-setting": {
+           "help" : "bit value 1 and/or 2 enable WncController debug output, bit value 4 enables mbed driver debug output.",
+           "value": "0x84"
+       }
+    },
+    "target_overrides": {
+        "*": {
+            "platform.stdio-baud-rate": 115200,
+            "platform.stdio-convert-newlines": true
+        }
+    }
+}
+
+
