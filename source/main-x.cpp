@@ -1,34 +1,30 @@
 
+
 #include "select-demo.h"
 
 /* =====================================================================
    Copyright © 2016, Avnet (R)
-
    Contributors:
      * James M Flynn, www.em.avnet.com 
  
    Licensed under the Apache License, Version 2.0 (the "License"); 
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
    Unless required by applicable law or agreed to in writing, 
    software distributed under the License is distributed on an 
    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
    either express or implied. See the License for the specific 
    language governing permissions and limitations under the License.
-
-    @file          main.cpp
+    @file          main.cpp / WNC14A2AInterface_HTTP_exampel
     @version       1.0
     @date          Dec 2016
-
 ======================================================================== */
 
 #if DEMO == DEMO_HTTPx
 
 #include "mbed.h"
-#include "easy-connect.h"
+#include "ezconnect.h"
 #include "http_request.h"
 #include "https_request.h"
 #include "BG96Interface.h"
@@ -83,8 +79,6 @@ const char SSL_CA_PEM[] = "-----BEGIN CERTIFICATE-----\n"
 // to work effeciently. 
 //
 
-Serial pc(USBTX, USBRX);
-
 //
 // The two test functions do the same set of tests, the first one uses standard HTTP methods while
 // the second test uses HTTPS.
@@ -94,15 +88,15 @@ void https_test_thread(void);             //Thread that runs the two tests
 void test_http(NetworkInterface *net);    //function makes standard HTTP calls
 void test_https(NetworkInterface *net);   //function makes standard HTTPS calls
 
+Thread http_test(osPriorityNormal, 4*1024, NULL);
+
 int main() {
-    Thread http_test(osPriorityNormal, OS_STACK_SIZE*4, NULL);
-    pc.baud(115200);
 
     printf("Test HTTP and HTTPS interface\n");
     http_test.start(https_test_thread);
-    while (true) {
-        osDelay(500);
-    }
+    wait(5);
+    http_test.join();
+    printf(" - - - - - - - ALL DONE - - - - - - - \n");
 }
 
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -112,21 +106,18 @@ void https_test_thread(void) {
 
     NetworkInterface *network = easy_connect(true);
 
+    printf(" software.\n");
     if (!network) {
         printf("Unable to connect to network!\n");
         return;
         }
-
-    printf("\nModem SW Revision: %s\n\n", FIRMWARE_REV(network));
+    printf("My IP Address is: %s \n\n", network->get_ip_address());
+    printf("Modem SW Revision: %s\n", FIRMWARE_REV(network));
 
     test_http(network);
     test_https(network);
-    
-    printf(" - - - - - - - ALL DONE - - - - - - - \n");
 
     network->disconnect();
-    delete network;
-    Thread::wait(osWaitForever);
 }
 
 
@@ -146,10 +137,10 @@ void dump_response(HttpResponse* res)
 
 void stream_callback(const char *data, size_t len)
 {
-    if( data[0] == '{' )
-        printf("Chunk Received: ");
+    printf("Chunk Received:\n");
     for( size_t x=0; x<len; x++ )
         printf("%c",data[x]);
+    printf("\n");
 }
 
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -190,7 +181,6 @@ void test_http(NetworkInterface *net)
         dump_response(get_res);
         delete get_req;
     }
-    socket->close();
     delete socket;
  
     socket = new TCPSocket();
@@ -282,7 +272,6 @@ void test_http(NetworkInterface *net)
         dump_response(get_res);
         delete get_req;
     }
-    socket->close();
     delete socket;
 }
 
@@ -300,10 +289,10 @@ void dump_httpsresponse(HttpResponse* res)
 
 void stream_httpscallback(const char *data, size_t len)
 {
-    if( data[0] == '{' )
-        printf("Chunk Received: ");
+    printf("Chunk Received:\n");
     for( size_t x=0; x<len; x++ )
         printf("%c",data[x]);
+    printf("\n");
 }
 
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -400,4 +389,3 @@ void test_https(NetworkInterface *net)
 }
 
 #endif // DEMO
-
