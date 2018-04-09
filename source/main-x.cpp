@@ -363,7 +363,7 @@ void test_https(NetworkInterface *net)
         delete del_req;
     }
 
-    printf("\n\n >>>HTTP:stream, send http://httpbin.org/stream/" INTSTR(STREAM_CNT)"... \n");
+    printf("\n\n >>>HTTPS:stream, send http://httpbin.org/stream/" INTSTR(STREAM_CNT)"... \n");
     {
         HttpsRequest* stream_req = new HttpsRequest(socket, HTTP_GET, "http://httpbin.org/stream/" INTSTR(STREAM_CNT), 
                                                   stream_httpscallback );
@@ -371,7 +371,7 @@ void test_https(NetworkInterface *net)
         delete stream_req;
     }
 
-    printf("\n\n >>>HTTP:Status...\n");
+    printf("\n\n >>>HTTPS:Status...\n");
     {
         HttpsRequest* get_req = new HttpsRequest(socket,HTTP_GET,"http://httpbin.org/get?show_env=1");
         HttpResponse* get_res = get_req->send();
