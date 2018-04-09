@@ -23,8 +23,7 @@
 
 #if DEMO == DEMO_HTTPx
 
-#include "mbed.h"
-#include "ezconnect.h"
+#include "easy-connect.h"
 #include "http_request.h"
 #include "https_request.h"
 #include "BG96Interface.h"
