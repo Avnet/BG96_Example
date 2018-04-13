@@ -3,10 +3,10 @@
               ],
     "config": {
        "main-stack-size":{
-           "value": 2000
+           "value": 6144
        },
        "thread-stack-size":{
-           "value": 2000
+           "value": 6144
        },
        "network-interface":{
            "help": "CELLULAR_BG96",
